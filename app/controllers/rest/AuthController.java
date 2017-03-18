@@ -4,6 +4,7 @@ import models.*;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -25,13 +26,14 @@ public class AuthController extends Controller {
     public Result save(){
         Form<User> userForm = formFactory.form(User.class).bindFromRequest();
 
-        Logger.info(userForm.errorsAsJson() + ":error");
+        //Logger.info(userForm.errorsAsJson() + ":error");
 
         if(userForm.hasErrors()){
             //return badRequest(views.html.createForm.render(userForm));
         }
         return ok(
-                "Hello"
+                userForm.errorsAsJson()
+                //Json.toJson(new User().getUserByEmail("cli@chicv.com"))
         );
     }
 }
