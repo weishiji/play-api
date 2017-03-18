@@ -1,6 +1,7 @@
 package controllers.rest;
 
 import models.*;
+import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
@@ -23,6 +24,12 @@ public class AuthController extends Controller {
 
     public Result save(){
         Form<User> userForm = formFactory.form(User.class).bindFromRequest();
+
+        Logger.info(userForm.errorsAsJson() + ":error");
+
+        if(userForm.hasErrors()){
+            //return badRequest(views.html.createForm.render(userForm));
+        }
         return ok(
                 "Hello"
         );
