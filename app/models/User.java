@@ -46,9 +46,15 @@ public class User extends Model {
         return errors.isEmpty() ? null : errors;
     }
     /**
-    * 验证Email是否被占用
+    * 通过邮箱获取用户信息
     * */
-    public Object getUserByEmail(String email){
+    public User getUserByEmail(String email){
         return find.where().eq("email",email).findUnique();
+    }
+    /**
+     * login
+     * */
+    public User login(String email,String password){
+        return find.where().eq("email",email).eq("password",password).findUnique();
     }
 }

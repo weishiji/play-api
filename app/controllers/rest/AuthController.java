@@ -26,13 +26,13 @@ public class AuthController extends Controller {
     public Result save(){
         Form<User> userForm = formFactory.form(User.class).bindFromRequest();
 
-        //Logger.info(userForm.errorsAsJson() + ":error");
-
         if(userForm.hasErrors()){
-            //return badRequest(views.html.createForm.render(userForm));
+            return ok(
+                userForm.errorsAsJson()
+            );
         }
         return ok(
-                userForm.errorsAsJson()
+//                userForm.errorsAsJson()
                 //Json.toJson(new User().getUserByEmail("cli@chicv.com"))
         );
     }
