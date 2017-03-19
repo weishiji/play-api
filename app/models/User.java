@@ -35,7 +35,8 @@ public class User extends Model {
     public static Finder<Long, User> find = new Finder<Long,User>(User.class);
 
     /**
-     * 增加错误类型
+     * 增加全局验证的错误类型
+     * TOTO:暂时用不到
      * */
     public List<ValidationError> validate() {
         User user = new User();
@@ -45,16 +46,19 @@ public class User extends Model {
         }
         return errors.isEmpty() ? null : errors;
     }
+
+
+    /**
+     * 匹配邮箱和密码登录系统
+     * */
+    private User authenticate(String email, String password) {
+        return find.where().eq("email",email).eq("password",password).findUnique();
+    }
+
     /**
     * 通过邮箱获取用户信息
     * */
     public User getUserByEmail(String email){
         return find.where().eq("email",email).findUnique();
-    }
-    /**
-     * login
-     * */
-    public User login(String email,String password){
-        return find.where().eq("email",email).eq("password",password).findUnique();
     }
 }

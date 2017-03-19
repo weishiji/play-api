@@ -24,6 +24,7 @@ public class AuthController extends Controller {
 
 
     public Result save(){
+        User user = new User();
         Form<User> userForm = formFactory.form(User.class).bindFromRequest();
 
         if(userForm.hasErrors()){
@@ -31,9 +32,11 @@ public class AuthController extends Controller {
                 userForm.errorsAsJson()
             );
         }
+        //user.login(userForm.)
         return ok(
 //                userForm.errorsAsJson()
                 //Json.toJson(new User().getUserByEmail("cli@chicv.com"))
+                Json.toJson(userForm)
         );
     }
 }
