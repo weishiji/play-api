@@ -2,6 +2,7 @@ package controllers.rest;
 
 import models.*;
 import play.Logger;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -26,15 +27,28 @@ public class AuthController extends Controller {
     public Result save(){
         User user = new User();
         Form<User> userForm = formFactory.form(User.class).bindFromRequest();
-
+        /**
+        *   基本类型的错误，无法验证通过
+        * */
         if(userForm.hasErrors()){
             return ok(
                 userForm.errorsAsJson()
             );
         }
-        //user.login(userForm.)
+
+        DynamicForm requestData = formFactory.form().bindFromRequest();
+        String email = requestData.get("email");
+        /**
+         * 邮箱已被占用
+         * */
+        if(user.getUserByEmail(email) != null){
+            userForm.reject("email","This e-mail is already registered.");
+            return ok(
+                    userForm.errorsAsJson()
+            );
+        }
+
         return ok(
-//                userForm.errorsAsJson()
                 //Json.toJson(new User().getUserByEmail("cli@chicv.com"))
                 Json.toJson(userForm)
         );

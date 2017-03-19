@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.jetbrains.annotations.NotNull;
 import play.Logger;
 import play.data.validation.Constraints;
@@ -38,20 +39,20 @@ public class User extends Model {
      * 增加全局验证的错误类型
      * TOTO:暂时用不到
      * */
-    public List<ValidationError> validate() {
+    /*public List<ValidationError> validate() {
         User user = new User();
         List<ValidationError> errors = new ArrayList<ValidationError>();
         if (user.getUserByEmail(email) != null) {
             errors.add(new ValidationError("email", "This e-mail is already registered."));
         }
         return errors.isEmpty() ? null : errors;
-    }
+    }*/
 
 
     /**
      * 匹配邮箱和密码登录系统
      * */
-    private User authenticate(String email, String password) {
+    public User authenticate(String email, String password) {
         return find.where().eq("email",email).eq("password",password).findUnique();
     }
 
@@ -60,5 +61,12 @@ public class User extends Model {
     * */
     public User getUserByEmail(String email){
         return find.where().eq("email",email).findUnique();
+    }
+    /**
+    * 生成加密密码
+    * */
+    private String genPasswordSave(String password){
+        return DigestUtils.sha1Hex(password);
+
     }
 }
