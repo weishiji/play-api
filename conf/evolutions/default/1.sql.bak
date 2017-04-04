@@ -18,12 +18,16 @@ create table computer (
   constraint pk_computer primary key (id)
 );
 
-create table oc_product (
+create table product (
   product_id                    bigint auto_increment not null,
-  sku                           varchar(255),
-  model                         varchar(255),
+  name                          varchar(255),
+  image                         varchar(255),
+  status                        tinyint,
+  date_available                datetime(6),
+  date_added                    datetime(6),
+  date_modified                 datetime(6),
   quantity                      integer,
-  constraint pk_oc_product primary key (product_id)
+  constraint pk_product primary key (product_id)
 );
 
 create table oc_customer (
@@ -46,7 +50,7 @@ drop table if exists company;
 
 drop table if exists computer;
 
-drop table if exists oc_product;
+drop table if exists product;
 
 drop table if exists oc_customer;
 

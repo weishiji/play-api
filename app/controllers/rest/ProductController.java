@@ -1,4 +1,4 @@
-package controllers;
+package controllers.rest;
 
 import models.*;
 import play.libs.Json;
