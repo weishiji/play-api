@@ -3,6 +3,15 @@
 
 # --- !Ups
 
+create table category (
+  category_id                   bigint auto_increment not null,
+  name                          varchar(255),
+  status                        tinyint,
+  sort_order                    bigint,
+  parent_id                     bigint,
+  constraint pk_category primary key (category_id)
+);
+
 create table company (
   id                            bigint auto_increment not null,
   name                          varchar(255),
@@ -30,6 +39,12 @@ create table product (
   constraint pk_product primary key (product_id)
 );
 
+create table product_to_category (
+  product_id                    bigint auto_increment not null,
+  category_id                   integer,
+  constraint pk_product_to_category primary key (product_id)
+);
+
 create table oc_customer (
   customer_id                   bigint auto_increment not null,
   email                         varchar(255),
@@ -46,11 +61,15 @@ create index ix_computer_company_id on computer (company_id);
 alter table computer drop foreign key fk_computer_company_id;
 drop index ix_computer_company_id on computer;
 
+drop table if exists category;
+
 drop table if exists company;
 
 drop table if exists computer;
 
 drop table if exists product;
+
+drop table if exists product_to_category;
 
 drop table if exists oc_customer;
 

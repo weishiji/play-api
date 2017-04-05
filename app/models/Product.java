@@ -43,7 +43,6 @@ public class Product extends Model {
     /**
      * Generic query helper for entity Computer with id Long
      */
-    //public static Finder<Long, Product> find = new Finder<Long,Product>(Product.class);
     public static Finder<Long, Product> find = new Finder<Long,Product>(Product.class);
 
     public Object list(){

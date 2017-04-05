@@ -26,6 +26,8 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 # Product
 GET /rest/product                        controllers.rest.ProductController.list()
 
+# Category
+GET /rest/category                  controllers.rest.CategoryController.list()
 
 # Customer
 
