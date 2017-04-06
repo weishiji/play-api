@@ -36,11 +36,9 @@ public class Product extends Model {
     @Formats.DateTime(pattern="yyyy-MM-dd")
     public Date date_modified;
 
-    @OneToOne
-    @JoinColumn(name = "product_id")
-    public ProductToCategory product_to_category;
-
     public int quantity;
+
+
     /**
      * Generic query helper for entity Computer with id Long
      */

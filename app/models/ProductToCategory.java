@@ -14,14 +14,14 @@ import java.util.List;
 @Entity
 public class ProductToCategory extends Model{
     @Id
-    //@Column(columnDefinition = "integer auto_increment not nul",name = "category_id")
     public Long category_id;
 
     public Long product_id;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id")
+    public Product product;
 
-    /*@JoinColumn(name = "product_id")
-    public Product product;*/
 
     /**
      * Generic query helper for entity ProductToCategory with id Long

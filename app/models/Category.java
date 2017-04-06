@@ -32,6 +32,7 @@ public class Category extends Model {
     @JoinColumn(name="category_id")
     public List<ProductToCategory> product_to_category;
 
+
     /**
      * Generic query helper for entity Category with id Long
      */
