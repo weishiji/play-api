@@ -15,6 +15,13 @@ CREATE TABLE `category` (
 CREATE TABLE `product_to_category` (
   `product_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
-  PRIMARY KEY (`product_id`,`category_id`),
+  PRIMARY KEY (`category_id`),
   KEY `category_id` (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+alter table product_to_category
+    add constraint fk_product_to_category_category_id
+    foreign key (category_id) references category (category_id)
+    on delete restrict on update restrict;
+

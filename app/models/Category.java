@@ -3,10 +3,7 @@ package models;
 import com.avaje.ebean.Model;
 import sun.rmi.runtime.Log;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +16,7 @@ import java.util.Map;
 public class Category extends Model {
 
     @Id
+    //@Column(name = "category_id")
     public Long category_id;
 
     public String name;
@@ -29,23 +27,20 @@ public class Category extends Model {
 
     public Long parent_id;
 
-    @OneToMany
-    public ProductToCategory product_to_category;
+    @OneToMany(cascade = CascadeType.ALL)
+    //定义join 的column name
+    @JoinColumn(name="category_id")
+    public List<ProductToCategory> product_to_category;
 
     /**
-     * Generic query helper for entity Company with id Long
+     * Generic query helper for entity Category with id Long
      */
     public static Find<Long,Category> find = new Find<Long,Category>(){};
 
-    public static Map<String,String> options() {
-        LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
-        for(Company c: Company.find.orderBy("name").findList()) {
-            options.put(c.id.toString(), c.name);
-        }
-        return options;
-    }
     public List<Category> list(){
-        List<Category> category = Category.find.where()
+        List<Category> category = Category.find
+
+                .where()
                 .eq("status",1)
                 .orderBy("sort_order desc")
                 .fetch("product_to_category")

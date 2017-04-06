@@ -32,6 +32,8 @@
 
     <logger name="com.gargoylesoftware.htmlunit" level="ERROR" />
     <logger name="org.apache.http.client.protocol" level="ERROR" />
+    <!--增加ebean的log输出-->
+    <logger name="org.avaje.ebean.SQL" level="TRACE" />
 
     <root level="WARN">
         <appender-ref ref="ASYNCFILE" />

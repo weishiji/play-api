@@ -3,10 +3,7 @@ package models;
 import com.avaje.ebean.Model;
 import play.data.validation.Constraints;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -16,22 +13,27 @@ import java.util.List;
 @Entity
 public class ProductToCategory extends Model{
     @Id
+    //@Column(columnDefinition = "integer auto_increment not nul",name = "category_id")
+    public int category_id;
+
     public Long product_id;
 
-    @Constraints.Required
-    public int category_id;
+
+    @ManyToOne
+    public List<Category> category;
 
     /**
      * Generic query helper for entity ProductToCategory with id Long
      */
-    public static Finder<Long, ProductToCategory> find = new Finder<Long,ProductToCategory>(ProductToCategory.class);
+    /*public static Finder<Long, ProductToCategory> find = new Finder<Long,ProductToCategory>(ProductToCategory.class);
 
-    public List<ProductToCategory> index(){
+    public List<ProductToCategory> list(){
         List<ProductToCategory> product_to_category = ProductToCategory.find
+                .fetch("category")
                 .where()
                 .findList();
         return product_to_category;
-    }
+    }*/
 
 
 }

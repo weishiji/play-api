@@ -40,9 +40,9 @@ create table product (
 );
 
 create table product_to_category (
-  product_id                    bigint auto_increment not null,
-  category_id                   integer,
-  constraint pk_product_to_category primary key (product_id)
+  category_id                   integer auto_increment not null,
+  product_id                    bigint,
+  constraint pk_product_to_category primary key (category_id)
 );
 
 create table oc_customer (
@@ -55,11 +55,17 @@ create table oc_customer (
 alter table computer add constraint fk_computer_company_id foreign key (company_id) references company (id) on delete restrict on update restrict;
 create index ix_computer_company_id on computer (company_id);
 
+alter table product_to_category add constraint fk_product_to_category_category_id foreign key (category_id) references category (category_id) on delete restrict on update restrict;
+create index ix_product_to_category_category_id on product_to_category (category_id);
+
 
 # --- !Downs
 
 alter table computer drop foreign key fk_computer_company_id;
 drop index ix_computer_company_id on computer;
+
+alter table product_to_category drop foreign key fk_product_to_category_category_id;
+drop index ix_product_to_category_category_id on product_to_category;
 
 drop table if exists category;
 
