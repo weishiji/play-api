@@ -39,10 +39,9 @@ public class Category extends Model {
 
     public List<Category> list(){
         List<Category> category = Category.find
-
                 .where()
                 .eq("status",1)
-                .orderBy("sort_order desc")
+                .orderBy("sort_order asc")
                 .fetch("product_to_category")
                 .findList();
         return category;

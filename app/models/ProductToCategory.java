@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import org.springframework.context.annotation.Primary;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
@@ -14,13 +15,13 @@ import java.util.List;
 public class ProductToCategory extends Model{
     @Id
     //@Column(columnDefinition = "integer auto_increment not nul",name = "category_id")
-    public int category_id;
+    public Long category_id;
 
     public Long product_id;
 
 
-    @ManyToOne
-    public List<Category> category;
+    /*@JoinColumn(name = "product_id")
+    public Product product;*/
 
     /**
      * Generic query helper for entity ProductToCategory with id Long

@@ -5,9 +5,7 @@ import com.avaje.ebean.PagedList;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -38,6 +36,9 @@ public class Product extends Model {
     @Formats.DateTime(pattern="yyyy-MM-dd")
     public Date date_modified;
 
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    public ProductToCategory product_to_category;
 
     public int quantity;
     /**

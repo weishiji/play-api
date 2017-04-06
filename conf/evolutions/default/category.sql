@@ -15,7 +15,7 @@ CREATE TABLE `category` (
 CREATE TABLE `product_to_category` (
   `product_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
-  PRIMARY KEY (`category_id`),
+  PRIMARY KEY (`category_id`,`product_id`),
   KEY `category_id` (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
