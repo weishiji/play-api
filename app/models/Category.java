@@ -1,12 +1,12 @@
 package models;
 
+import com.avaje.ebean.FetchConfig;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.PrivateOwned;
 import sun.rmi.runtime.Log;
 
 import javax.persistence.*;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by lxg on 04/04/2017.
@@ -16,9 +16,10 @@ import java.util.Map;
 public class Category extends Model {
 
     @Id
-    //@Column(name = "category_id")
+    @Column(name = "category_id")
     public Long category_id;
 
+    @Column(name = "name")
     public String name;
 
     public byte status;
@@ -27,9 +28,12 @@ public class Category extends Model {
 
     public Long parent_id;
 
-    @OneToMany(cascade = CascadeType.ALL)
+
     //定义join 的column name
-    @JoinColumn(name="category_id")
+    @JoinColumn(name="category_id",referencedColumnName = "category_id")
+    //@OneToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER,mappedBy = "product")
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy="category")
+
     public List<ProductToCategory> product_to_category;
 
 
@@ -40,10 +44,13 @@ public class Category extends Model {
 
     public List<Category> list(){
         List<Category> category = Category.find
+                .fetch("product_to_category")
+                .fetch("product_to_category.product")
                 .where()
                 .eq("status",1)
-                .orderBy("sort_order asc")
-                .fetch("product_to_category")
+                .eq("category_id",1)
+                //.orderBy("sort_order asc")
+
                 .findList();
         return category;
     }

@@ -20,8 +20,3 @@ CREATE TABLE `product_to_category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-alter table product_to_category
-    add constraint fk_product_to_category_category_id
-    foreign key (category_id) references category (category_id)
-    on delete restrict on update restrict;
-

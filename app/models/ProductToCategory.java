@@ -22,6 +22,10 @@ public class ProductToCategory extends Model{
     @JoinColumn(name = "product_id")
     public Product product;
 
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="category_id")
+    private Category category;
+
 
     /**
      * Generic query helper for entity ProductToCategory with id Long
