@@ -30,12 +30,16 @@ public class Category extends Model {
 
 
     //定义join 的column name
-    @JoinColumn(name="category_id",referencedColumnName = "category_id")
-    //@OneToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER,mappedBy = "product")
-    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy="category")
-
-    public List<ProductToCategory> product_to_category;
-
+    //@JoinColumn(name="category_id",referencedColumnName = "category_id")
+    /*@JoinTable(
+            name = "product_to_category",
+            joinColumns = {@JoinColumn(name = "category_id",referencedColumnName = "category_id")}
+            ,inverseJoinColumns = {@JoinColumn(name = "product_id",referencedColumnName = "product_id")}
+    )*/
+    @JoinColumn(name = "category_id")
+    //@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL)
+    public List<ProductToCategory> products;
 
     /**
      * Generic query helper for entity Category with id Long
@@ -43,14 +47,14 @@ public class Category extends Model {
     public static Find<Long,Category> find = new Find<Long,Category>(){};
 
     public List<Category> list(){
+
         List<Category> category = Category.find
-                .fetch("product_to_category")
-                .fetch("product_to_category.product")
+                .fetch("products")
+                .fetch("products.product")
                 .where()
                 .eq("status",1)
-                .eq("category_id",1)
-                //.orderBy("sort_order asc")
-
+                //.eq("category_id",1)
+                .orderBy("sort_order asc")
                 .findList();
         return category;
     }
