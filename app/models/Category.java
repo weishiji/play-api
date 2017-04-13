@@ -37,9 +37,8 @@ public class Category extends Model {
             ,inverseJoinColumns = {@JoinColumn(name = "product_id",referencedColumnName = "product_id")}
     )*/
     @JoinColumn(name = "category_id")
-    //@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.PERSIST)
     @OneToMany(cascade = CascadeType.ALL)
-    public List<ProductToCategory> products;
+    public List<ProductToCategory> product_to_category;
 
     /**
      * Generic query helper for entity Category with id Long
@@ -49,8 +48,8 @@ public class Category extends Model {
     public List<Category> list(){
 
         List<Category> category = Category.find
-                .fetch("products")
-                .fetch("products.product")
+                .fetch("product_to_category")
+                .fetch("product_to_category.product")
                 .where()
                 .eq("status",1)
                 //.eq("category_id",1)
