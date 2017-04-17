@@ -1,15 +1,13 @@
 package models;
 
 import com.avaje.ebean.Model;
-import org.springframework.context.annotation.Primary;
-import play.data.validation.Constraints;
+//import utils.ProductToCategoryPK;
 
 import javax.persistence.*;
-import java.util.List;
+import java.io.Serializable;
 
-/**
- * Created by lxg on 04/04/2017.
- */
+import static java.lang.Math.toIntExact;
+
 
 @Entity
 @Table(name="product_to_category")
@@ -18,12 +16,47 @@ public class ProductToCategory extends Model{
     @Column(name = "category_id")
     public Long category_id;
 
-    @EmbeddedId
     public Long product_id;
+
+    @EmbeddedId
+    private ProductToCategoryPK pk = new ProductToCategoryPK();
+
+    ProductToCategory(){
+        pk = new ProductToCategoryPK();
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "category_id",insertable = false,updatable = false)
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id",insertable = false,updatable = false)
+    private Product product;
+
+    public Category getCategory(){
+        return category;
+    }
+
+    public Product getProduct(){
+        return  product;
+    }
+
+    public void setCategory(Category aCategory){
+        category = aCategory;
+        pk.category_id = aCategory.category_id;
+    }
+
+    public void setProduct(Product aProduct){
+        product = aProduct;
+        pk.product_id = aProduct.product_id;
+    }
+
+/*
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     public Product product;
+*/
 
 /*
     @ManyToOne(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
@@ -46,3 +79,4 @@ public class ProductToCategory extends Model{
 
 
 }
+

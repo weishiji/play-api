@@ -10,6 +10,7 @@ import java.util.*;
 
 /**
  * Created by lxg on 04/04/2017.
+ * http://stackoverflow.com/questions/15593978/error-reading-annotations-with-composite-key-in-ebean
  */
 @Table(name="category")
 @Entity
@@ -36,7 +37,7 @@ public class Category extends Model {
             joinColumns = {@JoinColumn(name = "category_id",referencedColumnName = "category_id")}
             ,inverseJoinColumns = {@JoinColumn(name = "product_id",referencedColumnName = "product_id")}
     )*/
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id",referencedColumnName = "pk")
     @OneToMany(cascade = CascadeType.ALL)
     public List<ProductToCategory> product_to_category;
 
@@ -49,7 +50,7 @@ public class Category extends Model {
 
         List<Category> category = Category.find
                 .fetch("product_to_category")
-                .fetch("product_to_category.product")
+                //.fetch("product_to_category.product")
                 .where()
                 .eq("status",1)
                 //.eq("category_id",1)
