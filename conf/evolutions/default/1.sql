@@ -41,6 +41,8 @@ create table product (
 
 create table product_to_category (
   category_id                   bigint auto_increment not null,
+  product_id                    bigint,
+  constraint uq_product_to_category_product_id unique (product_id),
   constraint pk_product_to_category primary key (category_id)
 );
 
@@ -57,6 +59,8 @@ create index ix_computer_company_id on computer (company_id);
 alter table product_to_category add constraint fk_product_to_category_category_id foreign key (category_id) references category (category_id) on delete restrict on update restrict;
 create index ix_product_to_category_category_id on product_to_category (category_id);
 
+alter table product_to_category add constraint fk_product_to_category_product_id foreign key (product_id) references product (product_id) on delete restrict on update restrict;
+
 
 # --- !Downs
 
@@ -65,6 +69,8 @@ drop index ix_computer_company_id on computer;
 
 alter table product_to_category drop foreign key fk_product_to_category_category_id;
 drop index ix_product_to_category_category_id on product_to_category;
+
+alter table product_to_category drop foreign key fk_product_to_category_product_id;
 
 drop table if exists category;
 

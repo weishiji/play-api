@@ -18,7 +18,7 @@ public class Category extends Model {
 
     @Id
     @Column(name = "category_id")
-    public Long category_id;
+    private Long category_id;
 
     @Column(name = "name")
     public String name;
@@ -29,16 +29,15 @@ public class Category extends Model {
 
     public Long parent_id;
 
+    public Long getCategory_id(){
+        return  category_id;
+    }
+    public void setCategory_id(Long aCategory_id){
+        category_id = aCategory_id;
+    }
 
-    //定义join 的column name
-    //@JoinColumn(name="category_id",referencedColumnName = "category_id")
-    /*@JoinTable(
-            name = "product_to_category",
-            joinColumns = {@JoinColumn(name = "category_id",referencedColumnName = "category_id")}
-            ,inverseJoinColumns = {@JoinColumn(name = "product_id",referencedColumnName = "product_id")}
-    )*/
-    @JoinColumn(name = "category_id",referencedColumnName = "pk")
-    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "category")
     public List<ProductToCategory> product_to_category;
 
     /**

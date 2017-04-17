@@ -17,7 +17,7 @@ import java.util.List;
 public class Product extends Model {
 
     @Id
-    public Long product_id;
+    private Long product_id;
 
     @Constraints.Required
     public String name;
@@ -38,6 +38,12 @@ public class Product extends Model {
 
     public int quantity;
 
+    @OneToOne(mappedBy = "product")
+    public ProductToCategory product_to_category;
+
+    public Long getProduct_id(){
+        return product_id;
+    }
 
     /**
      * Generic query helper for entity Computer with id Long

@@ -1,5 +1,6 @@
 package models;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
@@ -11,13 +12,24 @@ import static java.lang.Math.toIntExact;
 
 @Embeddable
 public class ProductToCategoryPK  implements Serializable {
+    @Column(name = "product_id")
     public Long product_id;
 
+    @Column(name = "category_id")
     public Long category_id;
+
+    /*public ProductToCategoryPK(Long product_id, Long category_id) {
+        this.product_id = product_id;
+        this.category_id = category_id;
+    }*/
 
     @Override
     public int hashCode() {
-        return toIntExact(product_id) + toIntExact(category_id);
+        int hash = 3;
+        hash = 89 * hash + (this.product_id != null ? this.product_id.hashCode() : 0);
+        hash = 89 * hash + (this.category_id != null ? this.category_id.hashCode() : 0);
+        return hash;
+
     }
     @Override
     public boolean equals(Object obj) {

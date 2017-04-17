@@ -19,7 +19,7 @@ public class ProductToCategory extends Model{
     public Long product_id;
 
     @EmbeddedId
-    private ProductToCategoryPK pk = new ProductToCategoryPK();
+    private ProductToCategoryPK pk;
 
     ProductToCategory(){
         pk = new ProductToCategoryPK();
@@ -29,7 +29,7 @@ public class ProductToCategory extends Model{
     @JoinColumn(name = "category_id",insertable = false,updatable = false)
     private Category category;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "product_id",insertable = false,updatable = false)
     private Product product;
 
@@ -43,13 +43,14 @@ public class ProductToCategory extends Model{
 
     public void setCategory(Category aCategory){
         category = aCategory;
-        pk.category_id = aCategory.category_id;
+        pk.category_id = aCategory.getCategory_id();
     }
 
     public void setProduct(Product aProduct){
         product = aProduct;
-        pk.product_id = aProduct.product_id;
+        pk.product_id = aProduct.getProduct_id();
     }
+
 
 /*
 
