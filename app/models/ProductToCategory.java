@@ -22,7 +22,7 @@ public class ProductToCategory extends Model{
     }
 
     @ManyToOne
-    @JsonIgnore
+    @JsonIgnore //要写忽略这个输出，否则会出现递归错误，尼玛，这个也坑我好久
     @JoinColumn(name = "category_id",referencedColumnName = "category_id",insertable = false,updatable = false)
     private Category category;
 

@@ -19,12 +19,7 @@ public class ProductToCategoryPK  implements Serializable {
 
     @Column(name = "category_id")
     public Long category_id;
-
-    /*public ProductToCategoryPK(Long product_id, Long category_id) {
-        this.product_id = product_id;
-        this.category_id = category_id;
-    }*/
-
+    
     @Override
     public int hashCode() {
         int hash = 3;
