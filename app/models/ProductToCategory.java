@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 //import utils.ProductToCategoryPK;
 
 import javax.persistence.*;
@@ -14,11 +15,11 @@ import static java.lang.Math.toIntExact;
 public class ProductToCategory extends Model{
     @Id
     @Column(name = "category_id")
-    public Long category_id;
+    private Long category_id;
 
     public Long product_id;
 
-    @EmbeddedId
+    //@EmbeddedId
     private ProductToCategoryPK pk;
 
     ProductToCategory(){
@@ -26,6 +27,7 @@ public class ProductToCategory extends Model{
     }
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "category_id",insertable = false,updatable = false)
     private Category category;
 
