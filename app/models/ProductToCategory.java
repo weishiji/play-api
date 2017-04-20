@@ -13,14 +13,9 @@ import static java.lang.Math.toIntExact;
 @Entity
 @Table(name="product_to_category")
 public class ProductToCategory extends Model{
-    @Id
-    @Column(name = "category_id")
-    private Long category_id;
 
-    public Long product_id;
-
-    //@EmbeddedId
-    private ProductToCategoryPK pk;
+    @EmbeddedId
+    protected ProductToCategoryPK pk;
 
     ProductToCategory(){
         pk = new ProductToCategoryPK();
@@ -28,44 +23,30 @@ public class ProductToCategory extends Model{
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "category_id",insertable = false,updatable = false)
+    @JoinColumn(name = "category_id",referencedColumnName = "category_id",insertable = false,updatable = false)
     private Category category;
 
     @OneToOne
-    @JoinColumn(name = "product_id",insertable = false,updatable = false)
+    @JoinColumn(name = "product_id",referencedColumnName = "product_id",insertable = false,updatable = false)
     private Product product;
+
 
     public Category getCategory(){
         return category;
     }
-
-    public Product getProduct(){
-        return  product;
-    }
-
     public void setCategory(Category aCategory){
         category = aCategory;
         pk.category_id = aCategory.getCategory_id();
     }
 
+    public Product getProduct(){
+        return  product;
+    }
     public void setProduct(Product aProduct){
         product = aProduct;
         pk.product_id = aProduct.getProduct_id();
     }
 
-
-/*
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
-    public Product product;
-*/
-
-/*
-    @ManyToOne(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name="category_id")
-    private Category category;
-*/
 
     /**
      * Generic query helper for entity ProductToCategory with id Long

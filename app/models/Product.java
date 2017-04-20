@@ -39,7 +39,7 @@ public class Product extends Model {
     public int quantity;
 
     @OneToOne(mappedBy = "product")
-    public ProductToCategory product_to_category;
+    private ProductToCategory product_to_category;
 
     public Long getProduct_id(){
         return product_id;

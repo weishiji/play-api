@@ -35,9 +35,9 @@ public class Category extends Model {
     public void setCategory_id(Long aCategory_id){
         category_id = aCategory_id;
     }
-
-    @JoinColumn(name = "category_id")
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "category")
+    //尼玛，关键是这两组属性都要写，浪费老子一周的事件
+    @JoinColumn(name = "category_id",referencedColumnName = "category_id")
+    @OneToMany(mappedBy = "category")
     public List<ProductToCategory> product_to_category;
 
     /**
@@ -49,7 +49,7 @@ public class Category extends Model {
 
         List<Category> category = Category.find
                 .fetch("product_to_category")
-                //.fetch("product_to_category.product")
+                .fetch("product_to_category.product")
                 .where()
                 .eq("status",1)
                 //.eq("category_id",1)

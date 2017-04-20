@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 import static java.lang.Math.toIntExact;
@@ -12,6 +13,7 @@ import static java.lang.Math.toIntExact;
 
 @Embeddable
 public class ProductToCategoryPK  implements Serializable {
+
     @Column(name = "product_id")
     public Long product_id;
 
