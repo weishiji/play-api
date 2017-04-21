@@ -62,7 +62,7 @@ public class CategoryController  extends Controller{
         } finally {
             txn.end();
         }
-
+        //status(ACCEPTED)
         return ok(
                 //Json.toJson()
                 "success"
