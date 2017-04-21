@@ -2,6 +2,9 @@ package models;
 
 import com.avaje.ebean.FetchConfig;
 import com.avaje.ebean.Model;
+import javafx.beans.DefaultProperty;
+import play.data.format.Formats;
+import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.util.*;
@@ -13,25 +16,41 @@ import java.util.*;
 @Table(name="category")
 @Entity
 public class Category extends Model {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "category_id")
+    @Constraints.Required
     private Long category_id;
 
     @Column(name = "name")
-    public String name;
+    @Constraints.Required
+    private String name;
 
-    public byte status;
+    public byte status = 1;
 
-    public Long sort_order;
+    public int sort_order = 0;
 
-    public Long parent_id;
+    public int parent_id = 0;
+
+    @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
+    public Date date_added = new Date();
+
+    @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
+    public Date date_modified = new Date();
 
     public Long getCategory_id(){
         return  category_id;
     }
     public void setCategory_id(Long aCategory_id){
         category_id = aCategory_id;
+    }
+
+    public String getName(){
+        return  name;
+    }
+    public void setName(String aName){
+        name = aName;
     }
 
     //尼玛，关键是这两组属性都要写，浪费老子一周的事件
@@ -47,13 +66,14 @@ public class Category extends Model {
     public List<Category> list(){
 
         List<Category> category = Category.find
-                .fetch("product_to_category")
-                .fetch("product_to_category.product",new FetchConfig().lazy(10))
+                .fetch("product_to_category",new FetchConfig().lazy())
+                //.fetch("product_to_category.product")
                 .where()
                 .eq("status",1)
-                .eq("category_id",1)
+                //.eq("category_id",1)
                 .orderBy("sort_order asc")
                 .findList();
         return category;
     }
+
 }

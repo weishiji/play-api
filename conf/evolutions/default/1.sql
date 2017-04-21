@@ -7,8 +7,10 @@ create table category (
   category_id                   bigint auto_increment not null,
   name                          varchar(255),
   status                        tinyint,
-  sort_order                    bigint,
-  parent_id                     bigint,
+  sort_order                    integer,
+  parent_id                     integer,
+  date_added                    datetime(6),
+  date_modified                 datetime(6),
   constraint pk_category primary key (category_id)
 );
 
