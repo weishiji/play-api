@@ -56,7 +56,8 @@ public class Product extends Model {
     public String getDateAdded()
     {
         return formatSqlTime.format(date_added);
-    }    /**
+    }
+    /**
      * Generic query helper for entity Computer with id Long
      */
     public static Finder<Long, Product> find = new Finder<Long,Product>(Product.class);
