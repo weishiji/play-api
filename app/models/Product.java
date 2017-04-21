@@ -1,10 +1,8 @@
 package models;
 
 import com.avaje.ebean.Model;
-import com.avaje.ebean.PagedList;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
-import sun.text.resources.FormatData;
 import utils.FormatSqlTime;
 
 import javax.persistence.*;

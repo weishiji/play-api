@@ -2,10 +2,8 @@ package models;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Id;
 import java.io.Serializable;
 
-import static java.lang.Math.toIntExact;
 
 /**
  * Created by lxg on 04/04/2017.

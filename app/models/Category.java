@@ -2,8 +2,6 @@ package models;
 
 import com.avaje.ebean.FetchConfig;
 import com.avaje.ebean.Model;
-import com.avaje.ebean.annotation.PrivateOwned;
-import sun.rmi.runtime.Log;
 
 import javax.persistence.*;
 import java.util.*;
@@ -49,10 +47,10 @@ public class Category extends Model {
 
         List<Category> category = Category.find
                 .fetch("product_to_category")
-                .fetch("product_to_category.product")
+                .fetch("product_to_category.product",new FetchConfig().lazy(10))
                 .where()
                 .eq("status",1)
-                //.eq("category_id",1)
+                .eq("category_id",1)
                 .orderBy("sort_order asc")
                 .findList();
         return category;
