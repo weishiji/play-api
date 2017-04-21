@@ -3,11 +3,14 @@ package models;
 import com.avaje.ebean.FetchConfig;
 import com.avaje.ebean.Model;
 import javafx.beans.DefaultProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
+import utils.FormatSqlTime;
 
 import javax.persistence.*;
 import java.util.*;
+
 
 /**
  * Created by lxg on 04/04/2017.
@@ -17,6 +20,7 @@ import java.util.*;
 @Entity
 public class Category extends Model {
     private static final long serialVersionUID = 1L;
+    private FormatSqlTime formatSqlTime = new FormatSqlTime();
 
     @Id
     @Column(name = "category_id")
@@ -33,11 +37,12 @@ public class Category extends Model {
 
     public int parent_id = 0;
 
-    @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
+    @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date date_added = new Date();
 
-    @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
+    @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date date_modified = new Date();
+
 
     public Long getCategory_id(){
         return  category_id;

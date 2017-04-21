@@ -57,23 +57,11 @@ public class CategoryController  extends Controller{
             category.setCategory_id(newCategoryData.getCategory_id());
             category.setName(newCategoryData.getName());
             category.save();
-            /*Computer savedComputer = Computer.find.byId(id);
-            if (savedComputer != null) {
-                Computer newComputerData = computerForm.get();
-                savedComputer.company = newComputerData.company;
-                savedComputer.discontinued = newComputerData.discontinued;
-                savedComputer.introduced = newComputerData.introduced;
-                savedComputer.name = newComputerData.name;
-
-                savedComputer.update();
-                flash("success", "Computer " + computerForm.get().name + " has been updated");
-                txn.commit();
-            }*/
+            //TODO:又一坑，需要ebean server 提交保存
+            txn.commit();
         } finally {
             txn.end();
         }
-
-
 
         return ok(
                 //Json.toJson()
