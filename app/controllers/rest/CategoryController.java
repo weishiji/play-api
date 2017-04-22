@@ -32,6 +32,9 @@ public class CategoryController  extends Controller{
         );
 
     }
+    /**
+     * @apiNote 创建分类
+     * */
     public Result create(){
         Category category = new Category();
         Form<Category> categoryForm = formFactory.form(Category.class).bindFromRequest();
@@ -65,6 +68,27 @@ public class CategoryController  extends Controller{
         //status(ACCEPTED)
         return ok(
                 //Json.toJson()
+                "success"
+        );
+    }
+    /**
+     * @apiNote 删除分类
+     * @param category_id of the category for delete
+     * */
+    public Result delete(Long category_id){
+        Category.find.ref(category_id).delete();
+        return ok(
+                "success"
+        );
+    }
+    /**
+     * @apiNote 更新分类
+     * @param category_id  of the category to edit
+     * */
+    public Result update(Long category_id){
+        
+
+        return ok(
                 "success"
         );
     }

@@ -29,6 +29,7 @@ GET /rest/product                        controllers.rest.ProductController.list
 # Category
 GET       /rest/category                  controllers.rest.CategoryController.list()
 POST      /rest/category                  controllers.rest.CategoryController.create()
+DELETE    /rest/category/:id              controllers.rest.CategoryController.delete(id:Long)
 
 # Customer
 
