@@ -3,6 +3,7 @@ package controllers.rest;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Transaction;
+import io.netty.handler.codec.http.HttpRequest;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.data.FormFactory;
@@ -10,6 +11,7 @@ import play.mvc.Controller;
 import models.*;
 import play.libs.Json;
 import play.mvc.Result;
+import utils.ResponseJson;
 
 import javax.inject.Inject;
 
@@ -26,10 +28,11 @@ public class CategoryController  extends Controller{
 
     public Result list(){
         Category category = new Category();
-        return ok(
-                //"hello World"
+
+        return ok(ResponseJson.format(category.list()));
+        /*return ok(
                 Json.toJson(category.list())
-        );
+        );*/
 
     }
     /**
@@ -38,9 +41,7 @@ public class CategoryController  extends Controller{
     public Result create(){
         Category category = new Category();
         Form<Category> categoryForm = formFactory.form(Category.class).bindFromRequest();
-        /**
-         *   基本类型的错误，无法验证通过
-         * */
+
         if(categoryForm.hasErrors()){
             return ok(
                     categoryForm.errorsAsJson()
@@ -62,14 +63,12 @@ public class CategoryController  extends Controller{
             category.save();
             //TODO:又一坑，需要ebean server 提交保存
             txn.commit();
-        } finally {
-            txn.end();
+        }catch (Exception e){
+            return internalServerError(ResponseJson.format("error"));
+        }finally {
+            txn.end(); //关闭连接
         }
-        //status(ACCEPTED)
-        return ok(
-                //Json.toJson()
-                "success"
-        );
+        return ok(ResponseJson.format("success"));
     }
     /**
      * @apiNote 删除分类
@@ -77,16 +76,14 @@ public class CategoryController  extends Controller{
      * */
     public Result delete(Long category_id){
         Category.find.ref(category_id).delete();
-        return ok(
-                "success"
-        );
+        return ok(ResponseJson.format("success"));
     }
     /**
      * @apiNote 更新分类
      * @param category_id  of the category to edit
      * */
     public Result update(Long category_id){
-        
+
 
         return ok(
                 "success"

@@ -24,7 +24,8 @@ public class Category extends Model {
 
     @Id
     @Column(name = "category_id")
-    @Constraints.Required
+    //@Constraints.Required
+    @GeneratedValue
     private Long category_id;
 
     @Column(name = "name")
