@@ -2,6 +2,8 @@ package utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Category;
+import org.apache.xerces.xs.datatypes.ObjectList;
 import play.Logger;
 import play.api.mvc.ResponseHeader;
 import play.http.HttpEntity;
@@ -10,6 +12,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -24,6 +27,7 @@ import static play.mvc.Results.status;
  */
 public class ResponseJson{
     static String OK_MESSAGE = "Success"; // 200
+    static String CREATE_MESSAGE = "Create Success"; //201
     static String BAD_REQUEST_MESSAGE = "Bad Request"; // 400
     static String UNAUTHORIZED_MESSAGE = "Auth Failed"; // 401
     static String FORBIDDEN_MESSAGE = "Request Forbidden"; // 403
@@ -48,27 +52,30 @@ public class ResponseJson{
         ObjectNode result = Json.newObject();
 
         switch (status){
-            case OK:
+            case OK://200
                 result.put("message",OK_MESSAGE);
                 break;
-            case BAD_REQUEST:
+            case CREATED://201
+                result.put("message",CREATE_MESSAGE);
+                break;
+            case BAD_REQUEST://400
                 result.put("message",BAD_REQUEST_MESSAGE);
                 break;
-            case UNAUTHORIZED:
+            case UNAUTHORIZED://401
                 result.put("message",UNAUTHORIZED_MESSAGE);
                 break;
-            case FORBIDDEN:
+            case FORBIDDEN://403
                 result.put("message",FORBIDDEN_MESSAGE);
                 break;
-            case NOT_FOUND:
+            case NOT_FOUND://404
                 result.put("message",NOT_FOUND_MESSAGE);
-            case METHOD_NOT_ALLOWED:
+            case METHOD_NOT_ALLOWED://405
                 result.put("message",METHOD_NOT_ALLOWED_MESSAGE);
                 break;
-            case INTERNAL_SERVER_ERROR:
+            case INTERNAL_SERVER_ERROR://500
                 result.put("message",INTERNAL_SERVER_ERROR_MESSAGE);
                 break;
-            case BAD_GATEWAY:
+            case BAD_GATEWAY://502
                 result.put("message",BAD_GATEWAY_MESSAGE);
                 break;
             default:
@@ -79,13 +86,39 @@ public class ResponseJson{
         return result;
     }
     /**
-     * @param response Model Object
+     * @param response JsonNode
      * @param status Http status
      * */
-    public static ObjectNode format(List<Object> response, Integer status){
+    public static ObjectNode format(JsonNode response, Integer status){
         ObjectNode result = Json.newObject();
         ObjectNode messageResult = format(status);
 
+        result.set("message",messageResult.get("message"));
+        result.set("data", response);
+
+        return result;
+    }
+    /**
+     * @param response Model Object List
+     * @param status Http status
+     * */
+    public static ObjectNode format(List<?> response,Integer status){
+        ObjectNode result = Json.newObject();
+        ObjectNode messageResult = format(status);
+
+        result.set("message",messageResult.get("message"));
+        JsonNode jsonNode = Json.toJson(response);
+        result.set("data", jsonNode);
+
+        return result;
+    }
+    /**
+     * @param response Model Object
+     * @param status Http status
+     * */
+    public static ObjectNode format(Object response,Integer status){
+        ObjectNode result = Json.newObject();
+        ObjectNode messageResult = format(status);
 
         result.set("message",messageResult.get("message"));
         JsonNode jsonNode = Json.toJson(response);
@@ -95,7 +128,7 @@ public class ResponseJson{
     }
 
 
-    public static Result format(Callable<Result> func) throws Exception {
+    /*public static Result format(Callable<Result> func) throws Exception {
         Result result = func.call();
         Logger.info(result.status() + "");
         result.status();
@@ -107,6 +140,6 @@ public class ResponseJson{
         result.set("data",Json.toJson(res));
 
         return res;
-    }
+    }*/
 
 }

@@ -3,6 +3,7 @@ package controllers.rest;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Transaction;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.netty.handler.codec.http.HttpRequest;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -14,6 +15,8 @@ import play.mvc.Result;
 import utils.ResponseJson;
 
 import javax.inject.Inject;
+
+import java.util.List;
 
 import static javax.security.auth.callback.ConfirmationCallback.OK;
 
@@ -34,19 +37,15 @@ public class CategoryController  extends Controller{
     public Result list(){
         Category category = new Category();
 
+        List<Category> categories = category.list();
 
-        //return ok(ResponseJson.format())
-
-        Result result = ok(Json.toJson(category.list()));
-
-
-        return result;
-        //return ResponseJson.format(result);
+        return ok(ResponseJson.format(categories,OK));
 
     }
     /**
      * @apiNote 创建分类
      * @return success
+     * @return create object
      * */
     public Result create(){
         Category category = new Category();
@@ -70,6 +69,7 @@ public class CategoryController  extends Controller{
 
             category.setCategory_id(newCategoryData.getCategory_id());
             category.setName(newCategoryData.getName());
+            category.status = newCategoryData.status;
             category.save();
             //TODO:又一坑，需要ebean server 提交保存
             txn.commit();
@@ -78,13 +78,14 @@ public class CategoryController  extends Controller{
         }finally {
             txn.end(); //关闭连接
         }
-        return created(ResponseJson.format(CREATED));
+        return created(ResponseJson.format(category,CREATED));
     }
     /**
      * @apiNote 删除分类
      * @param category_id of the category for delete
      * */
     public Result delete(Long category_id){
+        
         Category.find.ref(category_id).delete();
         return ok(ResponseJson.format(OK));
     }
