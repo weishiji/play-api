@@ -15,6 +15,8 @@ import utils.ResponseJson;
 
 import javax.inject.Inject;
 
+import static javax.security.auth.callback.ConfirmationCallback.OK;
+
 /**
  * Created by lxg on 05/04/2017.
  */
@@ -25,15 +27,26 @@ public class CategoryController  extends Controller{
     public CategoryController(FormFactory formFactory) {
         this.formFactory = formFactory;
     }
-
+    /**
+     * @apiNote
+     * @return List
+     * */
     public Result list(){
         Category category = new Category();
 
-        return ok(ResponseJson.format(category.list()));
+
+        //return ok(ResponseJson.format())
+
+        Result result = ok(Json.toJson(category.list()));
+
+
+        return result;
+        //return ResponseJson.format(result);
 
     }
     /**
      * @apiNote 创建分类
+     * @return success
      * */
     public Result create(){
         Category category = new Category();
@@ -65,7 +78,7 @@ public class CategoryController  extends Controller{
         }finally {
             txn.end(); //关闭连接
         }
-        return ok(ResponseJson.format(OK));
+        return created(ResponseJson.format(CREATED));
     }
     /**
      * @apiNote 删除分类
