@@ -50,7 +50,7 @@ public class CategoryController  extends Controller{
     public Result create(){
         Category category = new Category();
         Form<Category> categoryForm = formFactory.form(Category.class).bindFromRequest();
-
+        response();
         if(categoryForm.hasErrors()){
             return badRequest(
                     categoryForm.errorsAsJson()

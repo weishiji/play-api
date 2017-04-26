@@ -8,6 +8,7 @@ import play.Logger;
 import play.api.mvc.ResponseHeader;
 import play.http.HttpEntity;
 import play.libs.Json;
+import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
@@ -25,7 +26,7 @@ import static play.mvc.Results.status;
 /**
  * Created by lxg on 24/04/2017.
  */
-public class ResponseJson{
+public class ResponseJson extends Controller{
     static String OK_MESSAGE = "Success"; // 200
     static String CREATE_MESSAGE = "Create Success"; //201
     static String BAD_REQUEST_MESSAGE = "Bad Request"; // 400
@@ -100,13 +101,16 @@ public class ResponseJson{
     }
     /**
      * @param response Model Object List
-     * @param status Http status
+     * @param status Http status Integer
      * */
     public static ObjectNode format(List<?> response,Integer status){
         ObjectNode result = Json.newObject();
         ObjectNode messageResult = format(status);
 
         result.set("message",messageResult.get("message"));
+        if(response.isEmpty()){
+            return result;
+        }
         JsonNode jsonNode = Json.toJson(response);
         result.set("data", jsonNode);
 

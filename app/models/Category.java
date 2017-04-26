@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.FetchConfig;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.PagedList;
 import javafx.beans.DefaultProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 import play.data.format.Formats;
@@ -87,6 +88,23 @@ public class Category extends Model {
                 .orderBy("sort_order asc")
                 .findList();
         return category;
+    }
+    /**
+     * Return a paged list of computer
+     *
+     * @param page Page to display
+     * @param pageSize Number of computers per page
+     * @param sortBy Computer property used for sorting
+     * @param order Sort order (either or asc or desc)
+     * @param filter Filter applied on the name column
+     */
+    public static PagedList<Category> page(int page, int pageSize, String sortBy, String order, String filter) {
+        return
+            Category.find
+                .fetch("product_to_category")
+                .where()
+                .eq("status",1)
+                .findPagedList(page, pageSize);
     }
 
 }
