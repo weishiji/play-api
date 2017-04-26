@@ -3,6 +3,8 @@ package models;
 import com.avaje.ebean.FetchConfig;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.PagedList;
+import com.avaje.ebean.annotation.WhenCreated;
+import com.avaje.ebean.annotation.WhenModified;
 import javafx.beans.DefaultProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 import play.data.format.Formats;
@@ -10,6 +12,7 @@ import play.data.validation.Constraints;
 import utils.FormatSqlTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 
@@ -40,10 +43,12 @@ public class Category extends Model {
     public int parent_id = 0;
 
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date date_added = new Date();
+    @WhenCreated
+    private Date date_added;
 
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date date_modified = new Date();
+    @WhenModified
+    private Date date_modified;
 
 
     public Long getCategory_id(){

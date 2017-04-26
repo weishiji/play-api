@@ -5,6 +5,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Transaction;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.netty.handler.codec.http.HttpRequest;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.data.FormFactory;
@@ -16,6 +17,7 @@ import utils.ResponseJson;
 
 import javax.inject.Inject;
 
+import java.util.Date;
 import java.util.List;
 
 import static javax.security.auth.callback.ConfirmationCallback.OK;
@@ -50,7 +52,6 @@ public class CategoryController  extends Controller{
     public Result create(){
         Category category = new Category();
         Form<Category> categoryForm = formFactory.form(Category.class).bindFromRequest();
-        response();
         if(categoryForm.hasErrors()){
             return badRequest(
                     categoryForm.errorsAsJson()
@@ -94,7 +95,6 @@ public class CategoryController  extends Controller{
      * @param category_id  of the category to edit
      * */
     public Result update(Long category_id){
-        //Category category = Category.find.ref(category_id);
         Form<Category> categoryForm = formFactory.form(Category.class).bindFromRequest();
         if(categoryForm.hasErrors()){
             return badRequest(
@@ -104,8 +104,19 @@ public class CategoryController  extends Controller{
 
         Transaction txn = Ebean.beginTransaction();
         try {
+            Category savedCategory = Category.find.byId(category_id);
+            if(savedCategory != null){
+                Category newCategoryData = categoryForm.get();
+                savedCategory.setStatus(newCategoryData.getStatus());
+                savedCategory.setName(newCategoryData.getName());
+
+                savedCategory.update();
+                txn.commit();
+            }
+
 
         }catch (Exception e){
+            e.printStackTrace();
             return internalServerError(ResponseJson.format(INTERNAL_SERVER_ERROR));
         }finally {
             txn.end();
@@ -114,5 +125,9 @@ public class CategoryController  extends Controller{
         return ok(
                 "success"
         );
+    }
+
+    private void saveCategory(Transaction txn,Category category,Category newCategory){
+
     }
 }

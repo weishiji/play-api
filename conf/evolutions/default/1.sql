@@ -9,8 +9,8 @@ create table category (
   status                        tinyint,
   sort_order                    integer,
   parent_id                     integer,
-  date_added                    datetime(6),
-  date_modified                 datetime(6),
+  date_added                    datetime(6) not null,
+  date_modified                 datetime(6) not null,
   constraint pk_category primary key (category_id)
 );
 
