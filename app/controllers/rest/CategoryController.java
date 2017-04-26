@@ -113,21 +113,13 @@ public class CategoryController  extends Controller{
                 savedCategory.update();
                 txn.commit();
             }
-
-
+            return ok(ResponseJson.format(savedCategory,OK));
         }catch (Exception e){
             e.printStackTrace();
             return internalServerError(ResponseJson.format(INTERNAL_SERVER_ERROR));
         }finally {
             txn.end();
         }
-
-        return ok(
-                "success"
-        );
     }
-
-    private void saveCategory(Transaction txn,Category category,Category newCategory){
-
-    }
+    
 }
