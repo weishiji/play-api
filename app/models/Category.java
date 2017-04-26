@@ -32,7 +32,7 @@ public class Category extends Model {
     @Constraints.Required
     private String name;
 
-    public byte status = 1;
+    private byte status;
 
     public int sort_order = 0;
 
@@ -57,6 +57,13 @@ public class Category extends Model {
     }
     public void setName(String aName){
         name = aName;
+    }
+
+    public byte getStatus(){
+        return status;
+    }
+    public void setStatus(byte aStatus){
+        status = aStatus;
     }
 
     //尼玛，关键是这两组属性都要写，浪费老子一周的事件

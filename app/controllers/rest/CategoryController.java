@@ -69,7 +69,7 @@ public class CategoryController  extends Controller{
 
             category.setCategory_id(newCategoryData.getCategory_id());
             category.setName(newCategoryData.getName());
-            category.status = newCategoryData.status;
+            category.setStatus(newCategoryData.getStatus());
             category.save();
             //TODO:又一坑，需要ebean server 提交保存
             txn.commit();
@@ -85,7 +85,7 @@ public class CategoryController  extends Controller{
      * @param category_id of the category for delete
      * */
     public Result delete(Long category_id){
-        
+
         Category.find.ref(category_id).delete();
         return ok(ResponseJson.format(OK));
     }
