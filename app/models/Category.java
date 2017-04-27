@@ -86,8 +86,7 @@ public class Category extends Model {
     public static Find<Long,Category> find = new Find<Long,Category>(){};
 
     public static List<Category> list(){
-        //product_to_category = null;
-        List<Category> category = Category.find
+        List<Category> category = Category.find.select("product_to_category.*")
                 .fetch("product_to_category",new FetchConfig().lazy())
                 .fetch("product_to_category.product")
                 .where()
@@ -116,7 +115,6 @@ public class Category extends Model {
     }
 
     public static Category getCategoryById(Long category_id){
-        //product_to_category = null;
         Category category = Category.find.byId(category_id);
 
         return category;
