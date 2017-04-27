@@ -28,6 +28,7 @@ import static javax.security.auth.callback.ConfirmationCallback.OK;
 public class CategoryController  extends Controller{
 
     private FormFactory formFactory;
+
     @Inject
     public CategoryController(FormFactory formFactory) {
         this.formFactory = formFactory;
@@ -37,12 +38,9 @@ public class CategoryController  extends Controller{
      * @return List
      * */
     public Result list(){
-        Category category = new Category();
 
-        List<Category> categories = category.list();
-
+        List<Category> categories = Category.list();
         return ok(ResponseJson.format(categories,OK));
-
     }
     /**
      * @apiNote 创建分类
@@ -104,7 +102,9 @@ public class CategoryController  extends Controller{
 
         Transaction txn = Ebean.beginTransaction();
         try {
-            Category savedCategory = Category.find.byId(category_id);
+
+            //Category savedCategory = Category.find.byId(category_id);
+            Category savedCategory = Category.getCategoryById(category_id);
             if(savedCategory != null){
                 Category newCategoryData = categoryForm.get();
                 savedCategory.setStatus(newCategoryData.getStatus());
@@ -121,5 +121,5 @@ public class CategoryController  extends Controller{
             txn.end();
         }
     }
-    
+
 }

@@ -3,9 +3,11 @@ package models;
 import com.avaje.ebean.FetchConfig;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.PagedList;
+import com.avaje.ebean.annotation.JsonIgnore;
 import com.avaje.ebean.annotation.WhenCreated;
 import com.avaje.ebean.annotation.WhenModified;
 import javafx.beans.DefaultProperty;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.format.annotation.DateTimeFormat;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
@@ -50,6 +52,11 @@ public class Category extends Model {
     @WhenModified
     private Date date_modified;
 
+    //尼玛，关键是这两组属性都要写，浪费老子一周的事件
+    @JoinColumn(name = "category_id",referencedColumnName = "category_id")
+    @OneToMany(mappedBy = "category")
+    public List<ProductToCategory> product_to_category;
+
 
     public Long getCategory_id(){
         return  category_id;
@@ -72,21 +79,17 @@ public class Category extends Model {
         status = aStatus;
     }
 
-    //尼玛，关键是这两组属性都要写，浪费老子一周的事件
-    @JoinColumn(name = "category_id",referencedColumnName = "category_id")
-    @OneToMany(mappedBy = "category")
-    public List<ProductToCategory> product_to_category;
 
     /**
      * Generic query helper for entity Category with id Long
      */
     public static Find<Long,Category> find = new Find<Long,Category>(){};
 
-    public List<Category> list(){
-
+    public static List<Category> list(){
+        //product_to_category = null;
         List<Category> category = Category.find
                 .fetch("product_to_category",new FetchConfig().lazy())
-                //.fetch("product_to_category.product")
+                .fetch("product_to_category.product")
                 .where()
                 .eq("status",1)
                 //.eq("category_id",1)
@@ -112,4 +115,11 @@ public class Category extends Model {
                 .findPagedList(page, pageSize);
     }
 
+    public static Category getCategoryById(Long category_id){
+        //product_to_category = null;
+        Category category = Category.find.byId(category_id);
+
+        return category;
+    }
 }
+
